@@ -9,8 +9,8 @@
 
 static size_t term_cursor_y;
 static size_t term_cursor_x;
-static uint8_t term_color;
-static uint16_t* term_frontbuff;
+static uint8_t term_color = 0x2;
+static uint16_t* term_frontbuff = (uint16_t*)(VRAM_START);
 static uint16_t term_backbuff[VGA_BUFFSIZE];
 
 static uint16_t make_vgaentry(char c, uint8_t color) {

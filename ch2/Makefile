@@ -16,7 +16,7 @@ RM = rm -rf
 CP = cp -r
 
 OBJFILES =	multiboot.o arch/x86/head.o arch/x86/step2.o arch/x86/vgaterm.o utils.o \
-			sys.o
+			sys.o vsprintf.o
 
 
 
