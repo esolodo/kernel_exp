@@ -36,7 +36,7 @@ section .init.bss nobits
 pd:     resb    0x1000          ; Page directory
 pt:     resb    0x1000          ; Page table
 
-extern show
+extern mboothander
 
 ;; Note that we're now defining functions in the normal .text section,
 ;; which means we're linked in the higher half (based at 3GB).
@@ -46,7 +46,9 @@ higherhalf:
         mov     eax, ebp        ; put multiboot magic back into eax so ebp can be used properly!
         mov     esp, stack      ; Ensure we have a valid stack.
         xor     ebp, ebp        ; Zero the frame pointer for backtraces.
-        call    show          ; Call second-stage loader.
+        push    ebx             ; Pass multiboot struct as a parameter
+        push    eax             ; Pass multiboot MAGIC as a parameter
+        call    mboothander          ; Call second-stage loader.
         cli                     ; Kernel has finished, so disable interrupts ...
         hlt                     ; ... And halt the processor.
 .end:

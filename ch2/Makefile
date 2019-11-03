@@ -10,12 +10,13 @@ CFLAGS	= -Wall -O4 -fno-omit-frame-pointer -Wextra -ffreestanding 				\
 		$(EXTRA_CFLAGS)
 LD	= $(CPU)-$(BINFMT)-ld
 
-LDFLAGS = --nmagic -m elf_i386 --output=kernel.bin --script=linker.ld -Map kernel.map
+LDFLAGS = --nmagic -m elf_i386 --output=kernel.bin --script=arch/x86/linker.ld -Map kernel.map
 MKDIR = mkdir -p
 RM = rm -rf
 CP = cp -r
 
-OBJFILES =	multiboot.o head.o display.o
+OBJFILES =	multiboot.o arch/x86/head.o arch/x86/step2.o arch/x86/vgaterm.o utils.o \
+			sys.o
 
 
 
@@ -31,7 +32,7 @@ kernel.bin: $(OBJFILES)
 	$(LD) $(LDFLAGS)  $^
 
 clean:
-	rm -rf *.o kernel.bin isofiles  os.iso kernel.map
+	rm -rf $(OBJFILES) kernel.bin isofiles  os.iso kernel.map
 
 iso:
 	mkdir -p isofiles/boot/grub
